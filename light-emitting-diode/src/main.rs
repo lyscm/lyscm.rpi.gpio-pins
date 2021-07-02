@@ -1,9 +1,9 @@
 #[macro_use]
 extern crate rocket;
 
-use crate::led::libs::*;
+use crate::libs::*;
 use rocket::Error;
-mod led;
+mod libs;
 
 const BASE_URL: &str = "/v1.0/gpio";
 
