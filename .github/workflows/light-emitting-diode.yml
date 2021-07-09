@@ -82,7 +82,7 @@ jobs:
             --build-arg VCS_REF=${GITHUB_SHA::8} \
             --file "light-emitting-diode/Dockerfile" \
             ${TAGS} \
-            .
+            ./light-emitting-diode
 
       - name: 4 - Setup QEMU
         uses: docker/setup-qemu-action@v1
