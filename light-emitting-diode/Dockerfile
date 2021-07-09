@@ -19,7 +19,7 @@ RUN rustup target add $(cat $TARGETPLATFORMPATH)
 RUN apt-get update && apt install -y gcc-arm-linux-gnueabihf
 
 COPY ./src ./src/
-COPY Cargo.lock Cargo.toml ./
+COPY Cargo.toml ./
 COPY ./.cargo ./.cargo/
 
 RUN cargo build --release --target $(cat $TARGETPLATFORMPATH)
