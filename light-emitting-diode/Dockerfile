@@ -1,9 +1,11 @@
+## ARGUMENTS
+ARG TARGETPLATFORM
+ARG APPLICATIONNAME="light-emitting-diode"
+
 ### BUILD ###
 FROM --platform=$BUILDPLATFORM rust as builder
 
 # Set arguments.
-ARG TARGETPLATFORM
-ARG APPLICATIONNAME="light-emitting-diode"
 ARG TARGETPLATFORMPATH=/.buildtargetplatform
 
 WORKDIR /lyscm/$TARGETPLATFORM
@@ -28,10 +30,6 @@ RUN cp ./target/$(cat $TARGETPLATFORMPATH)/release/$APPLICATIONNAME .
 
 ### RUNTIME ###
 FROM debian:buster-slim as runtime
-
-ARG TARGETPLATFORM
-
-ARG APPLICATIONNAME="light-emitting-diode"
 
 WORKDIR /lyscm/$TARGETPLATFORM
 
