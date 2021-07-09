@@ -29,6 +29,11 @@ RUN cp ./target/$(cat $TARGETPLATFORMPATH)/release/$APPLICATIONNAME .
 ### RUNTIME ###
 FROM debian:buster-slim as runtime
 
+ARG OWNER=lyscm
+ARG REPOSITORY_NAME=lyscm.rpi.gpio-pins
+
+LABEL org.opencontainers.image.source https://github.com/${OWNER}/${REPOSITORY_NAME}
+
 ARG TARGETPLATFORM
 ARG APPLICATIONNAME="light-emitting-diode"
 
