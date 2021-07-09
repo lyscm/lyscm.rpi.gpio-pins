@@ -89,9 +89,10 @@ jobs:
 
       - name: 5 - Setup Build
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v1.0.2
         with:
-          install: true
+          driver-opts: image=moby/buildkit:buildx-stable-1
+          #install: true
 
       - name: 6 - Setup Caching
         uses: actions/cache@v2
