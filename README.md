@@ -31,3 +31,9 @@ docker run \
     --privileged \
     $TAG
 ```
+
+Example:
+
+```bash
+wget --post-data '' http://127.0.0.1:8080/v1.0/gpio/led?pin=23&status=on
+```
