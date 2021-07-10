@@ -9,6 +9,8 @@ on:
       - v*
     paths:
       - "light-emitting-diode/**"
+      - "!light-emitting-diode/**/*.md"
+      - "!light-emitting-diode/**/.gitignore"
       - "!light-emitting-diode/docs/**"
 
   # Allows you to run this workflow manually from the Actions tab
