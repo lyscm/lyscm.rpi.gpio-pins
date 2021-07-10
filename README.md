@@ -32,8 +32,16 @@ docker run \
     $TAG
 ```
 
-Example:
+## Try out: <h2> 
 
+
+
+Powershell:
+```powershell
+$body = @{status='on';pin='23'}
+Invoke-WebRequest -Uri http://127.0.0.1:8080/v1.0/gpio/led?pin=23"&"status=on -Method POST -Body $body
+```
+Bash:
 ```bash
-wget --post-data '' http://127.0.0.1:8080/v1.0/gpio/led?pin=23&status=on
+curl --location --request POST 'http://127.0.0.1:8080/v1.0/gpio/led?pin=23&status=on'
 ```
