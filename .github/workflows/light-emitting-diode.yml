@@ -23,7 +23,7 @@ jobs:
     name: "Build & Push: Image"
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: lyscm.rpi.gpio-pins/light-emitting-diode
+      IMAGE_NAME: lyscm/lyscm.rpi.gpio-pins/light-emitting-diode
 
     steps:
       - name: 1 - Checkout

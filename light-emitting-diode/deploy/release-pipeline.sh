@@ -1,6 +1,6 @@
 USERNAME=lyscm
 
-export CR_PAT=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
+export CR_PAT
 echo $CR_PAT | docker login ghcr.io -u $USERNAME --password-stdin
 
 CONTAINER_NAME=light-emitting-diode
