@@ -10,7 +10,7 @@ pub async fn blink_per_interval(pin: u8, frequency: u64, duration: u64) -> Strin
     let led = LED::new(pin);
 
     let now = Instant::now();
-    let frequency_duration = Duration::new(frequency, 0);
+    let frequency_duration = Duration::new(1/frequency, 0);
     while duration > now.elapsed().as_secs() {
         led.on();
         sleep(frequency_duration);
