@@ -23,12 +23,9 @@ fn resource_not_found() -> &'static str {
 #[rocket::main]
 async fn main() -> Result<(), Error> {
     rocket::build()
-        // Faults
         .register(BASE_URL, catchers![resource_not_found])
         .register(BASE_URL, catchers![device_not_found])
-        // Switch routes
         .mount(BASE_URL, routes![switch_status])
-        // Blinker routes
         .mount(BASE_URL, routes![blink_per_interval])
         .mount(BASE_URL, routes![blink_per_count])
         .launch()
