@@ -18,7 +18,7 @@ RUN case "$TARGETPLATFORM" in \
 RUN rustup target add $(cat $TARGETPLATFORMPATH)
 RUN apt-get update && apt install -y gcc-arm-linux-gnueabihf
 
-COPY ./src ./src/
+COPY ./src/ ./src/
 COPY Cargo.toml ./
 COPY ./.cargo ./.cargo/
 
