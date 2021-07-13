@@ -39,9 +39,9 @@ docker run \
 Powershell:
 ```powershell
 $body = @{status='on';pin='23'}
-Invoke-WebRequest -Uri http://127.0.0.1:8080/v1.0/gpio/led?pin=23"&"status=on -Method POST -Body $body
+Invoke-WebRequest -Uri 'http://127.0.0.1:8080/v1.0/gpio/led/switch?pin=23&status=on' -Method POST -Body $body
 ```
 Bash:
 ```bash
-curl --location --request POST 'http://127.0.0.1:8080/v1.0/gpio/led?pin=23&status=on'
+curl --location --request POST 'http://127.0.0.1:8080/v1.0/gpio/led/switch?pin=23&status=on'
 ```
