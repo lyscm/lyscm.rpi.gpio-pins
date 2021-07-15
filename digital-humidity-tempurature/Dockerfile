@@ -1,9 +1,8 @@
+FROM debian:buster-slim as base
+ARG TARGETPLATFORM
 ARG REPOSITORY_NAME="lyscm.rpi.gpio-pins"
 ARG APPLICATIONNAME="digital-humidity-tempurature"
 ARG OWNER="lyscm"
-
-FROM debian:buster-slim as base
-ARG TARGETPLATFORM
 
 LABEL org.opencontainers.image.source https://github.com/${OWNER}/${REPOSITORY_NAME}
 
@@ -12,6 +11,8 @@ WORKDIR /$OWNER/$TARGETPLATFORM
 ### BUILD ###
 FROM --platform=$BUILDPLATFORM rust as builder
 ARG TARGETPLATFORM
+ARG OWNER="lyscm"
+ARG APPLICATIONNAME="digital-humidity-tempurature"
 
 # Set arguments.
 WORKDIR /$OWNER/$TARGETPLATFORM
@@ -39,5 +40,5 @@ RUN cp ./target/$(cat $TARGETPLATFORMPATH)/release/$APPLICATIONNAME .
 FROM base as runtime
 COPY --from=builder /$OWNER/$TARGETPLATFORM/$APPLICATIONNAME .
 ENV ROCKET_ADDRESS=0.0.0.0
-EXPOSE 8001
+EXPOSE 8000
 CMD [ "./light-emitting-diode" ]
