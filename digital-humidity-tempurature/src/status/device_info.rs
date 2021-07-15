@@ -1,7 +1,6 @@
 use std::error::Error;
 use std::fmt;
 use std::process;
-
 use rppal::gpio::Gpio;
 use rppal::system::{DeviceInfo, Model};
 
@@ -123,6 +122,7 @@ fn print_header(header: &[PinType]) -> Result<(), Box<dyn Error>> {
     print!("{}", buf);
 
     Ok(())
+
 }
 
 #[get("/status/display")]
