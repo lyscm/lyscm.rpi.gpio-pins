@@ -9,7 +9,7 @@ pub enum Status {
 
 // Gpio uses BCM pin numbering. BCM GPIO 23 is tied to physical pin 16.
 #[post("/switch?<pin>&<status>")]
-pub fn switch_status(pin: u8, status: Status) -> String {
+pub async fn switch_status(pin: u8, status: Status) -> String {
     println!(
         "Blinking an LED on a {}.",
         DeviceInfo::new().unwrap().model()
