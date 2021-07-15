@@ -1,3 +1,6 @@
+use std::thread;
+use std::time::Duration;
+
 use rppal::gpio::Gpio;
 use rppal::system::DeviceInfo;
 
@@ -15,12 +18,11 @@ pub async fn switch_status(pin: u8, status: Status) -> String {
         DeviceInfo::new().unwrap().model()
     );
 
-    let mut led = Gpio::new().unwrap().get(pin).unwrap().into_output();
-
-    match status {
-        Status::On => led.set_high(),
-        Status::Off => led.set_low(),
+    let mut pin = Gpio::new().unwrap().get(pin).unwrap().into_output();
+    
+    
+    loop {
+        pin.toggle();
+        thread::sleep(Duration::from_millis(1000));
     }
-
-    format!("Set lights status to {:?}", status)
 }
