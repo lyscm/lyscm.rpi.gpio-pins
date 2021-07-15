@@ -8,8 +8,8 @@
 #  <h1> 
 ## Initiate package(s): <h2> 
 
-1. [**D**igital **H**umidity **T**empurature]([https://link](https://github.com/lyscm/lyscm.rpi.gpio-pins/blob/master/digital-humidity-tempurature/README.md))
-2. [**L**ight **E**mitting **D**iode]([https://link](https://github.com/lyscm/lyscm.rpi.gpio-pins/blob/master/light-emitting-diode/README.md))
+1. [**D**igital **H**umidity **T**empurature](digital-humidity-tempurature/README.md)
+2. [**L**ight **E**mitting **D**iode](light-emitting-diode/README.md)
 
     
 
