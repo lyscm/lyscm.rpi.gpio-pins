@@ -1,14 +1,17 @@
 ARG REPOSITORY_NAME="lyscm.rpi.gpio-pins"
 ARG APPLICATIONNAME="digital-humidity-tempurature"
-ARG TARGETPLATFORM
-ARG OWNER=lyscm
+ARG OWNER="lyscm"
 
 FROM debian:buster-slim as base
+ARG TARGETPLATFORM
+
 LABEL org.opencontainers.image.source https://github.com/${OWNER}/${REPOSITORY_NAME}
+
 WORKDIR /$OWNER/$TARGETPLATFORM
 
 ### BUILD ###
 FROM --platform=$BUILDPLATFORM rust as builder
+ARG TARGETPLATFORM
 
 # Set arguments.
 WORKDIR /$OWNER/$TARGETPLATFORM
