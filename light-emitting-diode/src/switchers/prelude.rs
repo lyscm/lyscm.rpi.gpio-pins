@@ -15,5 +15,5 @@ pub async fn switch_status(pin: u8, status: Status) -> String {
         Status::Off => led.off(),
     }
 
-    format!("switched lights {:?}", status)
+    format!("switched lights {:?}!", status)
 }

@@ -41,4 +41,4 @@ FROM base as runtime
 COPY --from=builder /$OWNER/$TARGETPLATFORM/$APPLICATIONNAME .
 ENV ROCKET_ADDRESS=0.0.0.0
 EXPOSE 8000
-CMD [ "./light-emitting-diode" ]
+CMD [ "digital-humidity-tempurature" ]

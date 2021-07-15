@@ -72,7 +72,7 @@ Run container:
 ```bash
 docker run \
     -d \
-    -p 8080:8000 \
+    -p 8081:8000 \
     --device /dev/gpiomem \
     --name $CONTAINER_NAME \
     --restart unless-stopped \
