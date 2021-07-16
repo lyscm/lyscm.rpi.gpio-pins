@@ -1,12 +1,22 @@
+FROM debian:buster-slim as base
+ARG TARGETPLATFORM
+ARG REPOSITORY_NAME="lyscm.rpi.gpio-pins"
+ARG APPLICATIONNAME="light-emitting-diode"
+ARG OWNER="lyscm"
+
+LABEL org.opencontainers.image.source https://github.com/${OWNER}/${REPOSITORY_NAME}
+
+WORKDIR /$OWNER/$TARGETPLATFORM
+
 ### BUILD ###
 FROM --platform=$BUILDPLATFORM rust as builder
+ARG TARGETPLATFORM
+ARG OWNER="lyscm"
+ARG APPLICATIONNAME="light-emitting-diode"
 
 # Set arguments.
-ARG TARGETPLATFORM
-ARG APPLICATIONNAME="light-emitting-diode"
+WORKDIR /$OWNER/$TARGETPLATFORM
 ARG TARGETPLATFORMPATH=/.buildtargetplatform
-
-WORKDIR /lyscm/$TARGETPLATFORM
 
 RUN case "$TARGETPLATFORM" in \
     "linux/arm/v7") echo armv7-unknown-linux-gnueabihf > $TARGETPLATFORMPATH ;; \
@@ -27,21 +37,8 @@ RUN cargo build --release --target $(cat $TARGETPLATFORMPATH)
 RUN cp ./target/$(cat $TARGETPLATFORMPATH)/release/$APPLICATIONNAME .
 
 ### RUNTIME ###
-FROM debian:buster-slim as runtime
-
-ARG OWNER=lyscm
-ARG REPOSITORY_NAME=lyscm.rpi.gpio-pins
-
-LABEL org.opencontainers.image.source https://github.com/${OWNER}/${REPOSITORY_NAME}
-
-ARG TARGETPLATFORM
-ARG APPLICATIONNAME="light-emitting-diode"
-
-WORKDIR /lyscm/$TARGETPLATFORM
-
-COPY --from=builder /lyscm/$TARGETPLATFORM/$APPLICATIONNAME .
-
+FROM base as runtime
+COPY --from=builder /$OWNER/$TARGETPLATFORM/$APPLICATIONNAME .
 ENV ROCKET_ADDRESS=0.0.0.0
 EXPOSE 8000
-
 CMD [ "./light-emitting-diode" ]

@@ -1,14 +1,10 @@
 #[macro_use]
 extern crate rocket;
 
-use crate::blinkers::prelude::*;
-use crate::logging::prelude::*;
-use crate::switchers::prelude::*;
+use crate::blink::libs::*;
 use rocket::Error;
 
-mod blinkers;
-mod logging;
-mod switchers;
+mod blink;
 
 const BASE_URL: &str = "/v1.0/gpio/led";
 
@@ -27,10 +23,7 @@ async fn main() -> Result<(), Error> {
     rocket::build()
         .register(BASE_URL, catchers![resource_not_found])
         .register(BASE_URL, catchers![device_not_found])
-        .mount(BASE_URL, routes![switch_status])
-        .mount(BASE_URL, routes![blink_per_interval])
-        .mount(BASE_URL, routes![blink_per_count])
-        .mount(BASE_URL, routes![get_logs])
+        .mount(BASE_URL, routes![blink_led])
         .launch()
         .await
 }
