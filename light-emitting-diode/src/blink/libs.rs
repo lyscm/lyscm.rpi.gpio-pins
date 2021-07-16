@@ -26,8 +26,14 @@ pub async fn blink_led(pin: u8, frequency: u64) {
 
     // Blink the LED until running is set to false.
     while running.load(Ordering::SeqCst) {
+        if led.is_set_high() {
+            println!("Turning off LED: {:}!", pin);
+        } else if led.is_set_low() {
+            println!("Turning on LED: {:}!", pin);
+        }
+
         led.toggle();
-        thread::sleep(Duration::from_millis(1 / frequency * 1000));
+        thread::sleep(Duration::from_millis((1 / frequency) * 1000));
     }
 
     // After we're done blinking, turn the LED off.
