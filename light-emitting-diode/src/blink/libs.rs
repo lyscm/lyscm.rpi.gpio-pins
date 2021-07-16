@@ -9,8 +9,8 @@ use simple_signal::{self, Signal};
 
 use rppal::gpio::Gpio;
 
-#[post("/blink?<pin>&<frequency>")]
-pub async fn blink_led(pin: u8, frequency: u64) {
+#[post("/blink?<pin>&<duration>")]
+pub async fn blink_led(pin: u8, duration: f64) {
     // Retrieve the GPIO pin and configure it as an output.
     let mut led = Gpio::new().unwrap().get(pin).unwrap().into_output();
 
@@ -33,7 +33,9 @@ pub async fn blink_led(pin: u8, frequency: u64) {
         }
 
         led.toggle();
-        thread::sleep(Duration::from_millis((1 / frequency) * 1000));
+        
+        let frequency = (1_f64 / duration) * 1000_f64;
+        thread::sleep(Duration::from_millis(frequency as u64));
     }
 
     // After we're done blinking, turn the LED off.
