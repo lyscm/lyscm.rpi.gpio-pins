@@ -30,7 +30,7 @@ jobs:
     name: "Build & Push: Image"
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: ${{ env.OWNER}/${{ env.REPOSITORY_NAME}/${{ env.APPLICATION_NAME }}
+      IMAGE_NAME: ${{ env.OWNER}}/${{ env.REPOSITORY_NAME}}/${{ env.APPLICATION_NAME }}
 
     steps:
       - name: 1 - Checkout
