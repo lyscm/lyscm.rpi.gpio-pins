@@ -24,7 +24,7 @@ env:
   ACTIX_PORT: 8000
   OWNER: ${{ github.repository_owner }}
   REPOSITORY_NAME: ${{ github.repository }}
-  IMAGE_NAME: ${{ github.repository_owner }}/${{ github.repository }}/gpio-management
+  IMAGE_NAME: ${{ github.repository }}/gpio-management
 
 jobs:
   build-and-push-image:

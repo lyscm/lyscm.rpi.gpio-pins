@@ -14,7 +14,7 @@ ENV OWNER=${OWNER}
 ENV TARGETPLATFORM=${TARGETPLATFORM}
 ENV REPOSITORY_NAME=${REPOSITORY_NAME}
 
-LABEL org.opencontainers.image.source https://github.com/${OWNER}/${REPOSITORY_NAME}
+LABEL org.opencontainers.image.source https://github.com/${REPOSITORY_NAME}
 
 WORKDIR /${OWNER}/${TARGETPLATFORM}
 
