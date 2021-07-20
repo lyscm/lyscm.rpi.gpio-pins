@@ -1,6 +1,6 @@
 # RAPSBERRY PI GPIO PINS - REPOSITORY <h1> 
 
-[![Light Emitting Diode](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/light-emitting-diode-CI.yml/badge.svg?branch=master)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/light-emitting-diode-CI.yml) 
+[![Light Emitting Diode](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/light-emitting-diode-CI.yml/badge.svg)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/light-emitting-diode-CI.yml)
 [![Digital Humidity Tempurature](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/digital-humidity-tempurature-CI.yml/badge.svg)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/digital-humidity-tempurature-CI.yml)
 [![GPIO Management](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/gpio-management-CI.yml/badge.svg)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/gpio-management-CI.yml)
 
