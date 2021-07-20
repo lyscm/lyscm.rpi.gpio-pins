@@ -1,6 +1,6 @@
 # **D**igital **H**umidity **T**empurature <h1> 
 
-[![Digital Humidity Tempurature](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/digital-humidity-tempurature-CI.yml/badge.svg?branch=master)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/digital-humidity-tempurature-CI.yml)
+[![Digital Humidity Tempurature](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/digital-humidity-tempurature-CI.yml/badge.svg)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/digital-humidity-tempurature-CI.yml)
 
 #### STILL IN WORKING PROCESS!
 

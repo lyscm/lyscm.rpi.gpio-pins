@@ -1,6 +1,6 @@
 # **L**ight **E**mitting **D**iode <h1> 
 
-[![Light Emitting Diode](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/light-emitting-diode-CI.yml/badge.svg?branch=master)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/light-emitting-diode-CI.yml)
+[![Light Emitting Diode](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/light-emitting-diode-CI.yml/badge.svg)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/light-emitting-diode-CI.yml)
 
 #### STILL IN WORKING PROCESS!
 
