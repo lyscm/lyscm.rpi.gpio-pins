@@ -45,8 +45,7 @@ Invoke-WebRequest -Method POST -Uri 'http://localhost:8080/v1.0/gpio/led/transit
 -ContentType 'application/json' `
 -Body '{ 
     "pin": 23, 
-    "command_type": 
-    "blink", 
+    "command_type": "blink", 
     "duration": 500
 }'
 ```
