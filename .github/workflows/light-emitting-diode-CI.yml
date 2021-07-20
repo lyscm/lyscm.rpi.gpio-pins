@@ -19,13 +19,16 @@ on:
 env:
   REGISTRY: ghcr.io
   TARGET_PLATFORMS: linux/arm/v7
+  APPLICATION_NAME: light-emitting-diode
+  ACTIX_HOST: 0.0.0.0
+  ACTIX_PORT: 8000
+  OWNER: ${{ github.repository_owner }}
+  REPOSITORY_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push-image:
     name: "Build & Push: Image"
     runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME: lyscm/lyscm.rpi.gpio-pins/light-emitting-diode
 
     steps:
       - name: 1 - Checkout
@@ -36,7 +39,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ github.repository_owner }}
+          username: ${{ env.OWNER }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 3 - Setup Registry Metadata
@@ -44,7 +47,7 @@ jobs:
         run: |
 
           # Change all uppercase to lowercase
-          IMAGE_ID=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          IMAGE_ID=${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/${{ env.APPLICATION_NAME }}
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
           # Strip git ref prefix from version
@@ -82,9 +85,14 @@ jobs:
             --build-arg VERSION=${VERSION} \
             --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
             --build-arg VCS_REF=${GITHUB_SHA::8} \
-            --file "light-emitting-diode/Dockerfile" \
+            --build-arg OWNER=${{ env.OWNER }} \
+            --build-arg REPOSITORY_NAME=${{ env.REPOSITORY_NAME }} \
+            --build-arg APPLICATION_NAME=${{ env.APPLICATION_NAME }} \
+            --build-arg ACTIX_PORT=${{ env.ACTIX_PORT }} \
+            --build-arg ACTIX_HOST=${{ env.ACTIX_HOST }} \
+            --file "${{ env.APPLICATION_NAME }}/Dockerfile" \
             ${TAGS} \
-            ./light-emitting-diode
+            ./${{ env.APPLICATION_NAME }}
 
       - name: 4 - Setup QEMU
         uses: docker/setup-qemu-action@v1

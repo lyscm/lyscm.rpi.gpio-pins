@@ -41,10 +41,16 @@ docker run \
 
 Powershell:
 ```powershell
-$body = @{status='on';pin='23'}
-Invoke-WebRequest -Uri 'http://127.0.0.1:8080/v1.0/gpio/led/switch?pin=23&status=on' -Method POST -Body $body
+$body = @{pin='23';command_type='blink';duration='1000'}
+
+Invoke-WebRequest -Method POST `
+    -Body $body `
+    -Uri 'http://127.0.0.1:8080/v1.0/gpio/led/transit' 
 ```
 Bash:
 ```bash
-curl --location --request POST 'http://127.0.0.1:8080/v1.0/gpio/led/switch?pin=23&status=on'
+curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{"pin": "23", "command_type": "blink", "duration": "1000"}' \
+    http://127.0.0.1:8080/v1.0/gpio/led/transit
 ```

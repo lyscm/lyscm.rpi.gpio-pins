@@ -1,29 +1,39 @@
+// src/main.rs
 #[macro_use]
-extern crate rocket;
+extern crate log;
 
-use crate::blink::libs::*;
-use rocket::Error;
+use actix_web::{web, App, HttpServer};
+use dotenv::dotenv;
+use listenfd::ListenFd;
+use std::env;
 
-mod blink;
+mod services;
+mod libs;
 
-const BASE_URL: &str = "/v1.0/gpio/led";
+const BASE_URL_PATH: &str = "/v1.0/gpio/led";
 
-#[catch(500)]
-fn device_not_found() -> &'static str {
-    "Raspberry Pi device cannot be found!"
-}
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    dotenv().ok();
+    env_logger::init();
 
-#[catch(404)]
-fn resource_not_found() -> &'static str {
-    "Endpoint not found! Please check for the correct URL and the respective parameters."
-}
+    let mut listenfd = ListenFd::from_env();
+    let mut server = HttpServer::new(|| {
+        App::new()
+        .service(
+            web::scope(BASE_URL_PATH).configure(services::init_routes)
+        )
+    });
 
-#[rocket::main]
-async fn main() -> Result<(), Error> {
-    rocket::build()
-        .register(BASE_URL, catchers![resource_not_found])
-        .register(BASE_URL, catchers![device_not_found])
-        .mount(BASE_URL, routes![blink_led])
-        .launch()
-        .await
+    server = match listenfd.take_tcp_listener(0)? {
+        Some(listener) => server.listen(listener)?,
+        None => {
+            let host = env::var("ACTIX_HOST").expect("host not set");
+            let port = env::var("ACTIX_PORT").expect("port not set");
+            server.bind(format!("{}:{}", host, port))?
+        }
+    };
+
+    info!("Starting server");
+    server.run().await
 }
