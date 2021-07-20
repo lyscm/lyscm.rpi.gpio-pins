@@ -1,6 +1,6 @@
 # **GPIO** **M**angement <h1> 
 
-[![Light Emitting Diode](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/gpio-management-CI.yml/badge.svg?branch=master)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/gpio-management-CI.yml)
+[![GPIO Management](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/gpio-management-CI.yml/badge.svg)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/gpio-management-CI.yml)
 
 #### STILL IN WORKING PROCESS!
 
