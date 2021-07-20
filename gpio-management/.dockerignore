@@ -1,0 +1,9 @@
+**/deploy
+**/docs
+**/infra
+**/tests
+**/.gitignore
+**/README.md
+**/target
+**/.vscode
+**/Cargo.lock
