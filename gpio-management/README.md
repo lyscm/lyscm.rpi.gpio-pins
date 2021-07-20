@@ -1,4 +1,4 @@
-# **L**ight **E**mitting **D**iode <h1> 
+# **GPIO** **M**angement <h1> 
 
 [![Light Emitting Diode](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/gpio-management-CI.yml/badge.svg?branch=master)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/gpio-management-CI.yml)
 
@@ -41,10 +41,9 @@ docker run \
 
 Powershell:
 ```powershell
-$body = @{}
-Invoke-WebRequest -Uri 'http://127.0.0.1:8080/v1.0/gpio/management/status' -Method POST -Body $body
+Invoke-WebRequest -Uri 'http://127.0.0.1:8080/v1.0/gpio/management/status' -Method GET
 ```
 Bash:
 ```bash
-curl --location --request POST 'http://127.0.0.1:8080/v1.0/gpio/management/status'
+curl --location --request GET 'http://127.0.0.1:8080/v1.0/gpio/management/status'
 ```
