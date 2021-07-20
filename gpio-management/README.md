@@ -41,9 +41,9 @@ docker run \
 
 Powershell:
 ```powershell
-Invoke-WebRequest -Uri 'http://127.0.0.1:8080/v1.0/gpio/management/status' -Method GET
+Invoke-WebRequest -Uri 'http://localhost:8080/v1.0/gpio/management/status' -Method GET
 ```
 Bash:
 ```bash
-curl --location --request GET 'http://127.0.0.1:8080/v1.0/gpio/management/status'
+curl --location --request GET 'http://localhost:8080/v1.0/gpio/management/status'
 ```
