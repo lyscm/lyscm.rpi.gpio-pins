@@ -24,7 +24,6 @@ env:
   ACTIX_PORT: 8000
   OWNER: ${{ github.repository_owner }}
   REPOSITORY_NAME: ${{ github.repository }}
-  IMAGE_NAME: ${{ github.repository }}/gpio-management
 
 jobs:
   build-and-push-image:
@@ -40,7 +39,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ github.repository_owner }}
+          username: ${{ env.OWNER }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 3 - Setup Registry Metadata
@@ -48,7 +47,7 @@ jobs:
         run: |
 
           # Change all uppercase to lowercase
-          IMAGE_ID=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          IMAGE_ID=${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/${{ env.APPLICATION_NAME }}
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
           # Strip git ref prefix from version
