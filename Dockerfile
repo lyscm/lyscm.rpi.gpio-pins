@@ -60,7 +60,6 @@ COPY --from=builder /tmp/${APPLICATION_NAME} .
 # Run binary
 ENTRYPOINT [ "/bin/bash" ]
 CMD [ "-c", "$(echo ./$APPLICATION_NAME)" ]
-#
 
 # Labels
 LABEL org.opencontainers.image.source https://github.com/${REPOSITORY_NAME}
