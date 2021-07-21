@@ -2,12 +2,10 @@
 
 [![build](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/lyscm.rpi.gpio-pins-CI.yml/badge.svg?branch=master)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/lyscm.rpi.gpio-pins-CI.yml)
 
-#### STILL IN WORKING PROCESS!
-
-#  
+#### STILL IN WORKING PROCESS! <h2> 
 
 ## Initiate package(s) <h2> 
-#
+
 Set parameters:
 
 ```bash
