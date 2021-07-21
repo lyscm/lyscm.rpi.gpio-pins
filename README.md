@@ -1,6 +1,6 @@
 # RAPSBERRY PI GPIO PINS - REPOSITORY <h1> 
 
-[![build](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/lyscm.rpi.gpio-pins-CI.yml/badge.svg)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/lyscm.rpi.gpio-pins-CI.yml)
+[![build](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/lyscm.rpi.gpio-pins-CI.yml/badge.svg?branch=master)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/lyscm.rpi.gpio-pins-CI.yml)
 
 #### STILL IN WORKING PROCESS!
 
