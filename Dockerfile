@@ -1,7 +1,7 @@
 ARG REPOSITORY_NAME="lyscm/lyscm.rpi.gpio-pins"
 ARG APPLICATION_NAME="lyscm_rpi_gpio-pins"
 
-FROM alpine:latest as base
+FROM alpine as base
 
 ARG TARGETPLATFORM
 ARG REPOSITORY_NAME
@@ -9,11 +9,13 @@ ARG APPLICATION_NAME
 
 ENV TARGETPLATFORM=${TARGETPLATFORM}
 ENV REPOSITORY_NAME=${REPOSITORY_NAME}
-#ENV TZ=Etc/UTC
-#
-#RUN apk update \
-#    && apk add --no-cache ca-certificates tzdata \
-#    && rm -rf /var/cache/apk/*
+ENV \
+    # Show full backtraces for crashes.
+    RUST_BACKTRACE=full
+
+RUN apk add --no-cache tini \
+    && rm -rf /var/cache/* \
+    && mkdir /var/cache/apk
 
 LABEL org.opencontainers.image.source https://github.com/${REPOSITORY_NAME}
 
@@ -25,7 +27,7 @@ ARG TARGETPLATFORM
 ARG APPLICATION_NAME
 ARG TARGETPLATFORM_PATH=/.buildtargetplatform
 
-WORKDIR /tmp
+WORKDIR /opt
 
 RUN case "${TARGETPLATFORM}" in \
     "linux/arm/v7") echo "armv7-unknown-linux-gnueabihf" > ${TARGETPLATFORM_PATH} ;; \
@@ -55,11 +57,8 @@ ENV RUST_LOG=${APPLICATION_NAME}=info,actix=info
 
 EXPOSE ${ACTIX_PORT}
 
-WORKDIR /opt/${APPLICATION_NAME}
+COPY --from=builder /opt/${APPLICATION_NAME} .
 
-COPY --from=builder /tmp/${APPLICATION_NAME} .
-
-RUN chmod 777 "${APPLICATION_NAME}"
-RUN mv "${APPLICATION_NAME}" .initiate 
-
-CMD ["./.initiate"]
+RUN mv /opt/${APPLICATION_NAME} /opt/.initiate 
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["/opt/.initiate"]
