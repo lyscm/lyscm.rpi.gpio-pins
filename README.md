@@ -4,14 +4,14 @@
 
 #### STILL IN WORKING PROCESS!
 
-#  <h1> 
-## Initiate package(s) <h2> 
+#  
 
+## Initiate package(s) <h2> 
+#
 Set parameters:
 
 ```bash
-OWNER=lyscm
-CONTAINER_NAME=lyscm.rpi-gpio-pins-api
+CONTAINER_NAME=gpio-pins-api
 TAG=ghcr.io/lyscm/lyscm.rpi.gpio-pins
 ```
 Remove any existing container:

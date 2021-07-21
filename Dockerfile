@@ -1,33 +1,28 @@
-
-ARG OWNER="lyscm"
 ARG REPOSITORY_NAME="lyscm/lyscm.rpi.gpio-pins"
 ARG APPLICATION_NAME="lyscm_rpi_gpio-pins"
 
 FROM debian:buster-slim as base
 
-ARG OWNER
 ARG TARGETPLATFORM
 ARG REPOSITORY_NAME
 ARG APPLICATION_NAME
 
-ENV OWNER=${OWNER}
 ENV TARGETPLATFORM=${TARGETPLATFORM}
 ENV REPOSITORY_NAME=${REPOSITORY_NAME}
 
 LABEL org.opencontainers.image.source https://github.com/${REPOSITORY_NAME}
 
-WORKDIR /${OWNER}/${TARGETPLATFORM}
+WORKDIR /${TARGETPLATFORM}
 
 ### BUILD ###
 FROM --platform=$BUILDPLATFORM rust as builder
 
 # Set arguments.
-ARG OWNER
 ARG TARGETPLATFORM
 ARG APPLICATION_NAME
 ARG TARGETPLATFORM_PATH=/.buildtargetplatform
 
-WORKDIR /${OWNER}/${TARGETPLATFORM}
+WORKDIR /${TARGETPLATFORM}
 
 RUN case "${TARGETPLATFORM}" in \
     "linux/arm/v7") echo "armv7-unknown-linux-gnueabihf" > ${TARGETPLATFORM_PATH} ;; \
@@ -55,8 +50,8 @@ ENV ACTIX_PORT=${ACTIX_PORT}
 ENV ACTIX_HOST=${ACTIX_HOST}
 ENV RUST_LOG=${APPLICATION_NAME}=info,actix=info
 
-COPY --from=builder /${OWNER}/${TARGETPLATFORM}/${APPLICATION_NAME} .
+COPY --from=builder /${TARGETPLATFORM}/${APPLICATION_NAME} .
 EXPOSE ${ACTIX_PORT}
 
-RUN echo "./${APPLICATION_NAME}" > script.sh
-CMD [ "bash", "script.sh" ]
+RUN mv "./${APPLICATION_NAME}" ./.initiate
+CMD [ "bash", "./.initiate" ]
