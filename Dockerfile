@@ -55,7 +55,7 @@ ENV RUST_LOG=${APPLICATION_NAME}=info,actix=info
 
 EXPOSE ${ACTIX_PORT}
 
-COPY --from=builder /tmp/${APPLICATION_NAME} /
+COPY --from=builder /tmp/${APPLICATION_NAME} .
 
 #RUN mv ${APPLICATION_NAME} .initiate 
 CMD ["/lyscm_rpi_gpio-pins"]
