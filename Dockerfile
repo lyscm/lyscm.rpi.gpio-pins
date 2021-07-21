@@ -9,6 +9,11 @@ ARG APPLICATION_NAME
 
 ENV TARGETPLATFORM=${TARGETPLATFORM}
 ENV REPOSITORY_NAME=${REPOSITORY_NAME}
+ENV TZ=Etc/UTC
+
+RUN apk update \
+    && apk add --no-cache ca-certificates tzdata \
+    && rm -rf /var/cache/apk/*
 
 LABEL org.opencontainers.image.source https://github.com/${REPOSITORY_NAME}
 
@@ -54,7 +59,7 @@ WORKDIR /opt/${APPLICATION_NAME}
 
 COPY --from=builder /tmp/${APPLICATION_NAME} .
 
-RUN chown -R $USER:$USER ${APPLICATION_NAME}
-RUN mv ${APPLICATION_NAME} .initiate 
+RUN chown -R $USER:$USER "${APPLICATION_NAME}"
+RUN mv "${APPLICATION_NAME}" .initiate 
 
 CMD ["./.initiate"]
