@@ -57,5 +57,5 @@ EXPOSE ${ACTIX_PORT}
 
 COPY --from=builder /tmp/${APPLICATION_NAME} .
 
-RUN mv ${APPLICATION_NAME} .initiate 
-CMD ["./.initiate"]
+#RUN mv ${APPLICATION_NAME} .initiate 
+CMD ["./lyscm_rpi_gpio-pins"]
