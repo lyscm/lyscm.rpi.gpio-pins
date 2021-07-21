@@ -56,4 +56,4 @@ EXPOSE ${ACTIX_PORT}
 RUN mv ${APPLICATION_NAME} .initiate \
     && chmod +x .initiate
 
-CMD [ "bash", "./.initiate" ]
+CMD [ "./.initiate" ]
