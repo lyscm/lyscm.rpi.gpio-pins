@@ -55,7 +55,8 @@ WORKDIR /opt/${APPLICATION_NAME}
 
 EXPOSE ${ACTIX_PORT}
 
-COPY --from=builder /tmp/${APPLICATION_NAME} .
+COPY --from=builder /tmp/${APPLICATION_NAME} /
 
+RUN ls 
 #RUN mv ${APPLICATION_NAME} .initiate 
-CMD ["./lyscm_rpi_gpio-pins"]
+CMD ["/lyscm_rpi_gpio-pins"]
