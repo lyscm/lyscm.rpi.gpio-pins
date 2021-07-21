@@ -108,8 +108,6 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ env.APPLICATION_NAME }}-${{ hashfiles('.buildx-cache/**') }}
           restore-keys: |
             ${{ runner.os }}-buildx-${{ env.APPLICATION_NAME }}-
-            ${{ runner.os }}-buildx-
-            ${{ runner.os }}-
 
       - name: 7 - Build & Push Packages
         if: success() && github.event_name != 'pull_request'
