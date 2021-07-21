@@ -1,7 +1,7 @@
 ARG REPOSITORY_NAME="lyscm/lyscm.rpi.gpio-pins"
 ARG APPLICATION_NAME="lyscm_rpi_gpio-pins"
 
-FROM alpine as base
+FROM scratch as base
 
 ARG TARGETPLATFORM
 ARG REPOSITORY_NAME
@@ -12,10 +12,6 @@ ENV REPOSITORY_NAME=${REPOSITORY_NAME}
 ENV \
     # Show full backtraces for crashes.
     RUST_BACKTRACE=full
-
-RUN apk add --no-cache tini \
-    && rm -rf /var/cache/* \
-    && mkdir /var/cache/apk
 
 LABEL org.opencontainers.image.source https://github.com/${REPOSITORY_NAME}
 
@@ -62,5 +58,4 @@ EXPOSE ${ACTIX_PORT}
 COPY --from=builder /tmp/${APPLICATION_NAME} .
 
 RUN mv ${APPLICATION_NAME} .initiate 
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["/.initiate"]
+CMD ["./.initiate"]
