@@ -12,8 +12,6 @@ ENV REPOSITORY_NAME=${REPOSITORY_NAME}
 
 LABEL org.opencontainers.image.source https://github.com/${REPOSITORY_NAME}
 
-WORKDIR /${TARGETPLATFORM}
-
 ### BUILD ###
 FROM --platform=$BUILDPLATFORM rust as builder
 
@@ -22,7 +20,7 @@ ARG TARGETPLATFORM
 ARG APPLICATION_NAME
 ARG TARGETPLATFORM_PATH=/.buildtargetplatform
 
-WORKDIR /${TARGETPLATFORM}
+WORKDIR /tmp
 
 RUN case "${TARGETPLATFORM}" in \
     "linux/arm/v7") echo "armv7-unknown-linux-gnueabihf" > ${TARGETPLATFORM_PATH} ;; \
@@ -50,10 +48,9 @@ ENV ACTIX_PORT=${ACTIX_PORT}
 ENV ACTIX_HOST=${ACTIX_HOST}
 ENV RUST_LOG=${APPLICATION_NAME}=info,actix=info
 
-COPY --from=builder /${TARGETPLATFORM}/${APPLICATION_NAME} .
+WORKDIR /opt
+
+COPY --from=builder /tmp/${APPLICATION_NAME} .
 EXPOSE ${ACTIX_PORT}
 
-RUN mv ${APPLICATION_NAME} .initiate \
-    && chmod +x .initiate
-
-CMD [ "./.initiate" ]
+CMD ${APPLICATION_NAME}
