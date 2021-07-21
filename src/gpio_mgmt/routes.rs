@@ -1,9 +1,9 @@
 // src/requests/routes.rs
-use crate::libs::print_status;
 use actix_web::{get, web, HttpResponse, Responder};
 
+use super::print_status;
 
-#[get("/status")]
+#[get("/mgmt/status")]
 async fn get_status() -> impl Responder {
     match print_status().await {
         Ok(rsp) => HttpResponse::Ok().json(rsp),

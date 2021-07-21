@@ -1,5 +1,5 @@
 # This is a basic workflow to help you get started with Actions
-name: Light Emitting Diode
+name: GPIO Management
 
 on:
   push:
@@ -8,10 +8,10 @@ on:
     tags:
       - v*
     paths:
-      - "light-emitting-diode/**"
-      - "!light-emitting-diode/**/*.md"
-      - "!light-emitting-diode/**/.gitignore"
-      - "!light-emitting-diode/docs/**"
+      - "**/*"
+      - "!**/*.md"
+      - "!**/.gitignore"
+      - "!docs/**"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -19,7 +19,7 @@ on:
 env:
   REGISTRY: ghcr.io
   TARGET_PLATFORMS: linux/arm/v7
-  APPLICATION_NAME: light-emitting-diode
+  APPLICATION_NAME: lyscm_rpi_gpio-pins
   ACTIX_HOST: 0.0.0.0
   ACTIX_PORT: 8000
   OWNER: ${{ github.repository_owner }}
@@ -28,7 +28,7 @@ env:
 jobs:
   build-and-push-image:
     name: "Build & Push: Image"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    
 
     steps:
       - name: 1 - Checkout
@@ -47,7 +47,7 @@ jobs:
         run: |
 
           # Change all uppercase to lowercase
-          IMAGE_ID=${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/${{ env.APPLICATION_NAME }}
+          IMAGE_ID=${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
           # Strip git ref prefix from version
@@ -90,9 +90,8 @@ jobs:
             --build-arg APPLICATION_NAME=${{ env.APPLICATION_NAME }} \
             --build-arg ACTIX_PORT=${{ env.ACTIX_PORT }} \
             --build-arg ACTIX_HOST=${{ env.ACTIX_HOST }} \
-            --file "${{ env.APPLICATION_NAME }}/Dockerfile" \
             ${TAGS} \
-            ./${{ env.APPLICATION_NAME }}
+            .
 
       - name: 4 - Setup QEMU
         uses: docker/setup-qemu-action@v1

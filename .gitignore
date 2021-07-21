@@ -11,3 +11,8 @@
 
 # Ignore specific files or directories
 **/.vscode
+
+
+# Added by cargo
+
+/target

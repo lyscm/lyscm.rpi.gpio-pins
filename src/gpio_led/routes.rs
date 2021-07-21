@@ -1,9 +1,9 @@
 // src/requests/routes.rs
-use crate::{services::model::{CommandTypes, Request}};
-use crate::libs::toggle_led;
 use actix_web::{post, web, HttpResponse, Responder};
 
-#[post("/transit")]
+use super::{Request, model::CommandTypes, toggle_led};
+
+#[post("/led/transit")]
 async fn set_transit(req: web::Json<Request>) -> impl Responder {
     let pin = req.pin;
     let duration = req.duration;

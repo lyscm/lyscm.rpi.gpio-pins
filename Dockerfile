@@ -1,7 +1,7 @@
 
 ARG OWNER="lyscm"
-ARG REPOSITORY_NAME="lyscm.rpi.gpio-pins"
-ARG APPLICATION_NAME="light-emitting-diode"
+ARG REPOSITORY_NAME="lyscm/lyscm.rpi.gpio-pins"
+ARG APPLICATION_NAME="lyscm_rpi_gpio-pins"
 
 FROM debian:buster-slim as base
 
