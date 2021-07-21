@@ -57,7 +57,7 @@ ENV RUST_LOG=${APPLICATION_NAME}=info,actix=info
 
 EXPOSE ${ACTIX_PORT}
 
-COPY --from=builder /opt/${APPLICATION_NAME} .
+COPY --from=builder /opt/${APPLICATION_NAME} ./
 
 RUN mv /opt/${APPLICATION_NAME} /opt/.initiate 
 ENTRYPOINT ["/sbin/tini", "--"]
