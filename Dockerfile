@@ -53,7 +53,7 @@ WORKDIR /opt/${APPLICATION_NAME}
 COPY --from=builder /tmp/${APPLICATION_NAME} .
 EXPOSE ${ACTIX_PORT}
 
-RUN mv ${APPLICATION_NAME} .initiate \
-    && chown -R .initiate
+RUN chown -R ${APPLICATION_NAME}
+RUN mv ${APPLICATION_NAME} .initiate 
 
 CMD ["./.initiate"]
