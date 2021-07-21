@@ -53,5 +53,7 @@ ENV RUST_LOG=${APPLICATION_NAME}=info,actix=info
 COPY --from=builder /${TARGETPLATFORM}/${APPLICATION_NAME} .
 EXPOSE ${ACTIX_PORT}
 
-RUN mv "./${APPLICATION_NAME}" ./.initiate
+RUN mv ${APPLICATION_NAME} .initiate \
+    && chmod +x .initiate
+
 CMD [ "bash", "./.initiate" ]
