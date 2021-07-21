@@ -51,11 +51,11 @@ ENV ACTIX_PORT=${ACTIX_PORT}
 ENV ACTIX_HOST=${ACTIX_HOST}
 ENV RUST_LOG=${APPLICATION_NAME}=info,actix=info
 
-#WORKDIR /opt/${APPLICATION_NAME}
+WORKDIR /opt/${APPLICATION_NAME}
 
 EXPOSE ${ACTIX_PORT}
 
-COPY --from=builder /tmp/${APPLICATION_NAME} .
+COPY --from=builder /tmp/${APPLICATION_NAME} ./
 
 #RUN mv ${APPLICATION_NAME} .initiate 
-ENTRYPOINT ["./lyscm_rpi_gpio-pins", "-a", "0.0.0.0", "-p", "8000"]
+ENTRYPOINT ["/opt/lyscm_rpi_gpio-pins/lyscm_rpi_gpio-pins", "-a", "0.0.0.0", "-p", "8000"]
