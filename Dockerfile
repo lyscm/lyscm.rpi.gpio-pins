@@ -27,7 +27,7 @@ ARG TARGETPLATFORM
 ARG APPLICATION_NAME
 ARG TARGETPLATFORM_PATH=/.buildtargetplatform
 
-WORKDIR /opt
+WORKDIR /tmp
 
 RUN case "${TARGETPLATFORM}" in \
     "linux/arm/v7") echo "armv7-unknown-linux-gnueabihf" > ${TARGETPLATFORM_PATH} ;; \
@@ -55,10 +55,12 @@ ENV ACTIX_PORT=${ACTIX_PORT}
 ENV ACTIX_HOST=${ACTIX_HOST}
 ENV RUST_LOG=${APPLICATION_NAME}=info,actix=info
 
+WORKDIR /opt/${APPLICATION_NAME}
+
 EXPOSE ${ACTIX_PORT}
 
-COPY --from=builder /opt/${APPLICATION_NAME} ./
+COPY --from=builder /tmp/${APPLICATION_NAME} .
 
-RUN mv /opt/${APPLICATION_NAME} /opt/.initiate 
+RUN mv ${APPLICATION_NAME} .initiate 
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["/opt/.initiate"]
+CMD ["./.initiate"]
