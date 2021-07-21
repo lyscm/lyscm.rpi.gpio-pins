@@ -105,9 +105,9 @@ jobs:
         id: cache
         with:
           path: ${{ github.workspace }}/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ env.REPOSITORY_NAME }}-${{ hashfiles('.buildx-cache/**') }}
+          key: ${{ runner.os }}-buildx-${{ env.APPLICATION_NAME }}-${{ hashfiles('.buildx-cache/**') }}
           #restore-keys: |
-          #  ${{ runner.os }}-buildx-${{ env.REPOSITORY_NAME }}-
+          #  ${{ runner.os }}-buildx-${{ env.APPLICATION_NAME }}-
           #  ${{ runner.os }}-buildx-
           #  ${{ runner.os }}-
 
