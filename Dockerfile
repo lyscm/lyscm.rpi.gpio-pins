@@ -1,21 +1,9 @@
 ARG REPOSITORY_NAME="lyscm/lyscm.rpi.gpio-pins"
 ARG APPLICATION_NAME="lyscm_rpi_gpio-pins"
 
-FROM scratch as base
-
-ARG TARGETPLATFORM
-ARG REPOSITORY_NAME
-ARG APPLICATION_NAME
-
-ENV TARGETPLATFORM=${TARGETPLATFORM}
-ENV REPOSITORY_NAME=${REPOSITORY_NAME}
-ENV \
-    # Show full backtraces for crashes.
-    RUST_BACKTRACE=full
-
-LABEL org.opencontainers.image.source https://github.com/${REPOSITORY_NAME}
-
-### BUILD ###
+####################################################################################################
+## Builder
+####################################################################################################
 FROM --platform=$BUILDPLATFORM rust as builder
 
 # Set arguments.
@@ -43,19 +31,38 @@ RUN cargo build --release --target $(cat ${TARGETPLATFORM_PATH})
 
 RUN cp ./target/$(cat ${TARGETPLATFORM_PATH})/release/${APPLICATION_NAME} .
 
-### RUNTIME ###
-FROM base as runtime
+####################################################################################################
+## Runtime
+####################################################################################################
+FROM debian:buster-slim as runtime
+
+# Arguments
+ARG TARGETPLATFORM
+ARG REPOSITORY_NAME
+ARG APPLICATION_NAME
 ARG ACTIX_PORT
 ARG ACTIX_HOST
+
+# Environment variables
+ENV RUST_BACKTRACE=1
+ENV TARGETPLATFORM=${TARGETPLATFORM}
+ENV REPOSITORY_NAME=${REPOSITORY_NAME}
 ENV ACTIX_PORT=${ACTIX_PORT}
 ENV ACTIX_HOST=${ACTIX_HOST}
 ENV RUST_LOG=${APPLICATION_NAME}=info,actix=info
+ENV APPLICATION_NAME=${APPLICATION_NAME}
 
-WORKDIR /opt/${APPLICATION_NAME}
-
+# Set ports
 EXPOSE ${ACTIX_PORT}
 
-COPY --from=builder /tmp/${APPLICATION_NAME} ./
+# Import from builder
+WORKDIR /opt/${APPLICATION_NAME}
+COPY --from=builder /tmp/${APPLICATION_NAME} .
 
-#RUN mv ${APPLICATION_NAME} .initiate 
-ENTRYPOINT ["/opt/lyscm_rpi_gpio-pins/lyscm_rpi_gpio-pins", "-a", "0.0.0.0", "-p", "8000"]
+# Run binary
+ENTRYPOINT [ "/bin/bash" ]
+CMD [ "-c", "$(echo ./$APPLICATION_NAME)" ]
+#
+
+# Labels
+LABEL org.opencontainers.image.source https://github.com/${REPOSITORY_NAME}
