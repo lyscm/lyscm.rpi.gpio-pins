@@ -53,4 +53,5 @@ WORKDIR /opt
 COPY --from=builder /tmp/${APPLICATION_NAME} .
 EXPOSE ${ACTIX_PORT}
 
-CMD ${APPLICATION_NAME}
+RUN mv ${APPLICATION_NAME} .initiate
+CMD ["./.initiate"]
