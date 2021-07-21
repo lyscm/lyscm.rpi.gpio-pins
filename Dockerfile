@@ -58,4 +58,4 @@ EXPOSE ${ACTIX_PORT}
 COPY --from=builder /tmp/${APPLICATION_NAME} .
 
 #RUN mv ${APPLICATION_NAME} .initiate 
-ENTRYPOINT ["/lyscm_rpi_gpio-pins"]
+ENTRYPOINT ["./lyscm_rpi_gpio-pins", "-a", "0.0.0.0", "-p", "8000"]
