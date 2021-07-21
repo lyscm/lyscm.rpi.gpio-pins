@@ -63,4 +63,4 @@ COPY --from=builder /tmp/${APPLICATION_NAME} .
 
 RUN mv ${APPLICATION_NAME} .initiate 
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["./.initiate"]
+CMD ["/.initiate"]
