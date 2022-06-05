@@ -11,3 +11,5 @@
 
 # Ignore specific files or directories
 **/.vscode
+
+proto/*.rs

@@ -3,7 +3,7 @@ use std::env;
 use tonic::{transport::Server, Request, Response, Status};
 
 pub mod gpio {
-    tonic::include_proto!("gpio");
+    include!("../proto/gpio.rs");
 }
 use gpio::gpio_server::{Gpio, GpioServer};
 use gpio::{CommandType, LedRequest, LedResponse, StatusRequest, StatusResponse};
