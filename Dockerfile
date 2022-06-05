@@ -26,6 +26,7 @@ RUN apt-get update && apt install -y gcc-arm-linux-gnueabihf
 COPY ./src/ ./src/
 COPY Cargo.toml ./
 COPY ./.cargo ./.cargo/
+COPY ./proto ./proto/
 
 RUN cargo build --release --target $(cat ${TARGETPLATFORM_PATH})
 
