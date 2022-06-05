@@ -21,7 +21,10 @@ RUN case "${TARGETPLATFORM}" in \
 
 # Compile application.
 RUN rustup target add $(cat ${TARGETPLATFORM_PATH})
-RUN apt-get update && apt install -y gcc-arm-linux-gnueabihf
+RUN wget -qO /etc/apt/trusted.gpg.d/kitware-key.asc https://apt.kitware.com/keys/kitware-archive-latest.asc \
+    && echo "deb https://apt.kitware.com/ubuntu/ focal main" | sudo tee /etc/apt/sources.list.d/kitware.list
+RUN apt-get update && apt-get install -y cmake gcc-arm-linux-gnueabihf
+
 
 COPY ./src/ ./src/
 COPY Cargo.toml build.rs ./
