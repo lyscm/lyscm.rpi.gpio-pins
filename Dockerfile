@@ -22,7 +22,7 @@ RUN case "${TARGETPLATFORM}" in \
 # Compile application.
 RUN rustup target add $(cat ${TARGETPLATFORM_PATH})
 RUN wget -qO /etc/apt/trusted.gpg.d/kitware-key.asc https://apt.kitware.com/keys/kitware-archive-latest.asc \
-    && echo "deb https://apt.kitware.com/ubuntu/ focal main" | sudo tee /etc/apt/sources.list.d/kitware.list
+    && echo "deb https://apt.kitware.com/ubuntu/ focal main" | tee /etc/apt/sources.list.d/kitware.list
 RUN apt-get update && apt-get install -y cmake gcc-arm-linux-gnueabihf
 
 
