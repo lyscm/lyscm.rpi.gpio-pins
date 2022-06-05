@@ -19,8 +19,8 @@ env:
   REGISTRY: ghcr.io
   TARGET_PLATFORMS: linux/arm/v7
   APPLICATION_NAME: lyscm_rpi_gpio-pins
-  ACTIX_PORT: 8000
-  ACTIX_HOST: 0.0.0.0
+  GRPC_PORT: 8000
+  GRPC_HOST: 0.0.0.0
   OWNER: ${{ github.repository_owner }}
   REPOSITORY_NAME: ${{ github.repository }}
 
@@ -86,8 +86,8 @@ jobs:
             --build-arg VCS_REF=${GITHUB_SHA::8} \
             --build-arg REPOSITORY_NAME=${{ env.REPOSITORY_NAME }} \
             --build-arg APPLICATION_NAME=${{ env.APPLICATION_NAME }} \
-            --build-arg ACTIX_PORT=${{ env.ACTIX_PORT }} \
-            --build-arg ACTIX_HOST=${{ env.ACTIX_HOST }} \
+            --build-arg GRPC_PORT=${{ env.GRPC_PORT }} \
+            --build-arg GRPC_HOST=${{ env.GRPC_HOST }} \
             ${TAGS} \
             .
 

@@ -1,0 +1,30 @@
+syntax = "proto3";
+package gpio;
+
+service Gpio {
+    rpc ToggleLed (LedRequest) returns (LedResponse);
+    rpc PrintStatus (StatusRequest) returns (StatusResponse);
+}
+
+enum CommandType {
+    SWITCH = 0;
+    BLINK = 1;
+}
+
+message LedRequest {
+    uint32 pin = 1;
+    uint64 duration   = 2;
+    CommandType command_type   = 3;
+}
+
+message LedResponse {
+    bool   successful = 1;
+    string message    = 2;
+}
+
+message StatusRequest {}
+
+message StatusResponse {
+    bool   successful = 1;
+    string message    = 2;
+}
