@@ -6,7 +6,9 @@ pub mod gpio {
     include!("../proto/gpio.rs");
 }
 use gpio::gpio_server::{Gpio, GpioServer};
-use gpio::{CommandType, LedRequest, LedResponse, StatusRequest, StatusResponse};
+use gpio::{
+    status_response::Payload, CommandType, LedRequest, LedResponse, StatusRequest, StatusResponse,
+};
 
 mod utils;
 use utils::{led, status};
@@ -44,9 +46,17 @@ impl Gpio for GpioService {
         _: Request<StatusRequest>,
     ) -> Result<Response<StatusResponse>, Status> {
         match status::print_status().await {
-            Ok(stat) => Ok(Response::new(StatusResponse {
+            Ok(stats) => Ok(Response::new(StatusResponse {
                 successful: true,
-                message: stat,
+                payloads: stats
+                    .into_iter()
+                    .map(|x| Payload {
+                        gpio: x.gpio,
+                        level: x.level,
+                        mode: x.mode,
+                        pin: x.pin,
+                    })
+                    .collect(),
             })),
             Err(e) => Err(Status::unknown(e.to_string())),
         }

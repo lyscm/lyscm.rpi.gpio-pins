@@ -25,6 +25,13 @@ message LedResponse {
 message StatusRequest {}
 
 message StatusResponse {
-    bool   successful = 1;
-    string message    = 2;
+    message Payload {
+        string gpio = 1;
+        string mode = 2;
+        string level = 3;
+        string pin = 4;
+    }
+    bool successful = 1;
+    repeated Payload payloads = 2;
 }
+

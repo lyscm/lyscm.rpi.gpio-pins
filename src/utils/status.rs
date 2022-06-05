@@ -23,6 +23,13 @@ impl fmt::Display for PinType {
     }
 }
 
+pub struct Status {
+    pub gpio: String,
+    pub mode: String,
+    pub level: String,
+    pub pin: String,
+}
+
 const HEADER: [PinType; 40] = [
     PinType::Power3v3, // Physical pin 1
     PinType::Power5v,  // Physical pin 2
@@ -70,33 +77,22 @@ const MAX_PINS_SHORT: usize = 26;
 const MAX_PINS_LONG: usize = 40;
 
 fn format_pin(
-    buf: &mut String,
     pin: usize,
     gpio: impl fmt::Display,
     mode: impl fmt::Display,
     level: impl fmt::Display,
-) {
-    if pin % 2 != 0 {
-        buf.push_str(&format!(
-            "| {:>4} | {:<5} | {:>1} | {:>2} |",
-            gpio, mode, level, pin
-        ));
-    } else {
-        buf.push_str(&format!(
-            " {:>2} | {:>1} | {:<5} | {:>4} |\n",
-            pin, level, mode, gpio
-        ));
+) -> Status {
+    Status {
+        pin: format!("{:>2}", pin),
+        level: format!("{:>1}", level),
+        mode: format!("{:<5}", mode),
+        gpio: format!("{:>4}", gpio),
     }
 }
 
-fn print_header(header: &[PinType]) -> Result<String, Box<dyn Error>> {
+fn print_header(header: &[PinType]) -> Result<Vec<Status>, Box<dyn Error>> {
     let gpio = Gpio::new()?;
-
-    let mut buf = String::with_capacity(1600);
-
-    buf.push_str("+------+-------+---+---------+---+-------+------+\n");
-    buf.push_str("| GPIO | Mode  | L |   Pin   | L | Mode  | GPIO |\n");
-    buf.push_str("+------+-------+---+----+----+---+-------+------+\n");
+    let mut stats = vec![];
 
     for (idx, pin_type) in header.iter().enumerate() {
         match pin_type {
@@ -106,24 +102,21 @@ fn print_header(header: &[PinType]) -> Result<String, Box<dyn Error>> {
                 // and level without affecting its state.
                 let pin = gpio.get(*bcm_gpio)?;
 
-                format_pin(
-                    &mut buf,
+                stats.push(format_pin(
                     idx + 1,
                     bcm_gpio,
                     format!("{}", pin.mode()).to_uppercase(),
                     pin.read() as u8,
-                );
+                ));
             }
-            _ => format_pin(&mut buf, idx + 1, "", pin_type, ""),
+            _ => stats.push(format_pin(idx + 1, "", pin_type, "")),
         };
     }
 
-    buf.push_str("+------+-------+---+----+----+---+-------+------+\n");
-
-    Ok(buf)
+    Ok(stats)
 }
 
-pub async fn print_status() -> Result<String, Box<dyn Error>> {
+pub async fn print_status() -> Result<Vec<Status>, Box<dyn Error>> {
     // Identify the Pi's model, so we can print the appropriate GPIO header.
     match DeviceInfo::new()?.model() {
         Model::RaspberryPiBRev1 => {
