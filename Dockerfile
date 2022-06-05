@@ -24,7 +24,7 @@ RUN rustup target add $(cat ${TARGETPLATFORM_PATH})
 RUN apt-get update && apt install -y gcc-arm-linux-gnueabihf
 
 COPY ./src/ ./src/
-COPY Cargo.toml ./
+COPY Cargo.toml build.rs ./
 COPY ./.cargo ./.cargo/
 COPY ./proto ./proto/
 
@@ -38,8 +38,8 @@ RUN cp ./target/$(cat ${TARGETPLATFORM_PATH})/release/${APPLICATION_NAME} .
 FROM debian:buster-slim as runtime
 
 # Arguments
-ARG ACTIX_PORT
-ARG ACTIX_HOST
+ARG GRPC_PORT
+ARG GRPC_HOST
 ARG REPOSITORY_NAME
 ARG APPLICATION_NAME
 
