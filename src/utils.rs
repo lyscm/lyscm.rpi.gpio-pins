@@ -1,2 +1,2 @@
 pub mod led;
-pub mod status;
+pub mod info;

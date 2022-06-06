@@ -1,9 +1,12 @@
 syntax = "proto3";
 package gpio;
 
+import "google/protobuf/empty.proto";
+
 service Gpio {
     rpc ToggleLed (LedRequest) returns (LedResponse);
-    rpc PrintStatus (StatusRequest) returns (StatusResponse);
+    rpc GetDeviceInfo (google.protobuf.Empty) returns (DeviceInfoResponse);
+    rpc GetDeviceModel (google.protobuf.Empty) returns (DeviceModelResponse);
 }
 
 enum CommandType {
@@ -22,16 +25,17 @@ message LedResponse {
     string message    = 2;
 }
 
-message StatusRequest {}
-
-message StatusResponse {
+message DeviceInfoResponse {
     message Payload {
         string gpio = 1;
         string mode = 2;
         string level = 3;
         string pin = 4;
     }
-    bool successful = 1;
     repeated Payload payloads = 2;
+}
+
+message DeviceModelResponse {
+    string message = 1;
 }
 

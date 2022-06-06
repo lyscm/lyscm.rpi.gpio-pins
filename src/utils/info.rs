@@ -90,7 +90,7 @@ fn format_pin(
     }
 }
 
-fn print_header(header: &[PinType]) -> Result<Vec<Status>, Box<dyn Error>> {
+fn get_gpio(header: &[PinType]) -> Result<Vec<Status>, Box<dyn Error>> {
     let gpio = Gpio::new()?;
     let mut stats = vec![];
 
@@ -116,7 +116,7 @@ fn print_header(header: &[PinType]) -> Result<Vec<Status>, Box<dyn Error>> {
     Ok(stats)
 }
 
-pub async fn print_status() -> Result<Vec<Status>, Box<dyn Error>> {
+pub async fn get_gpio_info() -> Result<Vec<Status>, Box<dyn Error>> {
     // Identify the Pi's model, so we can print the appropriate GPIO header.
     match DeviceInfo::new()?.model() {
         Model::RaspberryPiBRev1 => {
@@ -127,9 +127,9 @@ pub async fn print_status() -> Result<Vec<Status>, Box<dyn Error>> {
             header_rev1[4] = PinType::Gpio(1);
             header_rev1[12] = PinType::Gpio(21);
 
-            print_header(&header_rev1[..MAX_PINS_SHORT])
+            get_gpio(&header_rev1[..MAX_PINS_SHORT])
         }
-        Model::RaspberryPiA | Model::RaspberryPiBRev2 => print_header(&HEADER[..MAX_PINS_SHORT]),
+        Model::RaspberryPiA | Model::RaspberryPiBRev2 => get_gpio(&HEADER[..MAX_PINS_SHORT]),
         Model::RaspberryPiAPlus
         | Model::RaspberryPiBPlus
         | Model::RaspberryPi2B
@@ -138,10 +138,14 @@ pub async fn print_status() -> Result<Vec<Status>, Box<dyn Error>> {
         | Model::RaspberryPi3BPlus
         | Model::RaspberryPi4B
         | Model::RaspberryPiZero
-        | Model::RaspberryPiZeroW => print_header(&HEADER[..MAX_PINS_LONG]),
+        | Model::RaspberryPiZeroW => get_gpio(&HEADER[..MAX_PINS_LONG]),
         model => {
             eprintln!("Error: No GPIO header information available for {}", model);
             process::exit(1);
         }
     }
+}
+
+pub async fn get_device_model() -> Result<Model, Box<dyn Error>> {
+    Ok(DeviceInfo::new()?.model())
 }

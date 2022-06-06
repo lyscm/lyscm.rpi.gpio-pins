@@ -1,8 +1,8 @@
 use std::{error::Error, thread, time::Duration};
 
-use rppal::gpio::Gpio;
+use rppal::gpio::{Gpio, Level};
 
-pub async fn toggle(pin: u8, duration: u64) -> Result<(), Box<dyn Error>> {
+pub async fn blink(pin: u8, duration: u64) -> Result<String, Box<dyn Error>> {
     // Retrieve the GPIO pin and configure it as an output.
     let mut led = Gpio::new()?.get(pin)?.into_output();
 
@@ -13,22 +13,21 @@ pub async fn toggle(pin: u8, duration: u64) -> Result<(), Box<dyn Error>> {
 
     led.set_low();
 
-    Ok(())
+    Ok("succesfully switch LED".to_string())
 }
 
-pub async fn switch(pin: u8) -> Result<(), Box<dyn Error>> {
+pub async fn switch(pin: u8) -> Result<String, Box<dyn Error>> {
     // Retrieve the GPIO pin and configure it as an output.
-    let mut led = Gpio::new()?.get(pin)?.into_output();
+    let led = Gpio::new()?.get(pin)?;
 
-    led.reset_on_drop();
-
-    if led.is_set_low() {
-        println!("LED is tured ON!.....");
-        led.toggle();
-    } else if led.is_set_high() {
-        println!("LED is tured OFF!.....");
-        led.toggle();
-    }
-
-    Ok(())
+    Ok(match led.read() {
+        Level::Low => {
+            led.into_output_high();
+            "LED is tured ON!.....".to_string()
+        }
+        Level::High => {
+            led.into_output_low();
+            "LED is tured OFF!.....".to_string()
+        }
+    })
 }
