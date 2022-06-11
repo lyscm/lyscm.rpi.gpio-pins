@@ -8,12 +8,12 @@ use std::env;
 use tonic::{transport::Server, Request, Response, Status};
 
 pub mod gpio {
-    include!("../proto/gpio.rs");
+    include!("../.protos/gpio.rs");
 }
 use gpio::gpio_server::{Gpio, GpioServer};
 use gpio::{
     device_info_response::Payload, CommandType, DeviceInfoResponse, DeviceModelResponse,
-    LedRequest, LedResponse,
+    UpdateLedStatusRequest, UpdateLedStatusResponse,
 };
 
 mod utils;
@@ -24,21 +24,21 @@ pub struct GpioService {}
 
 #[tonic::async_trait]
 impl Gpio for GpioService {
-    async fn toggle_led(&self, req: Request<LedRequest>) -> Result<Response<LedResponse>, Status> {
+    async fn update_led_status(&self, req: Request<UpdateLedStatusRequest>) -> Result<Response<UpdateLedStatusResponse>, Status> {
         info!("Got a request: {:?}", req);
 
         let req_body = req.into_inner();
 
         match req_body.command_type() {
             CommandType::Switch => match led::switch(req_body.pin as u8).await {
-                Ok(msg) => Ok(Response::new(LedResponse {
+                Ok(msg) => Ok(Response::new(UpdateLedStatusResponse {
                     successful: true,
                     message: msg,
                 })),
                 Err(e) => Err(Status::unavailable(e.to_string())),
             },
             CommandType::Blink => match led::blink(req_body.pin as u8, req_body.duration).await {
-                Ok(msg) => Ok(Response::new(LedResponse {
+                Ok(msg) => Ok(Response::new(UpdateLedStatusResponse {
                     successful: true,
                     message: msg,
                 })),
@@ -123,7 +123,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 mod tests {
 
     use gpio::gpio_client::GpioClient;
-    use gpio::LedRequest;
+    use gpio::UpdateLedStatusRequest;
 
     use dotenv::dotenv;
     use std::env;
@@ -131,7 +131,7 @@ mod tests {
     use self::gpio::CommandType;
 
     pub mod gpio {
-        include!("../proto/gpio.rs");
+        include!("../.protos/gpio.rs");
     }
 
     #[tokio::test]
@@ -144,13 +144,13 @@ mod tests {
         let mut client = GpioClient::connect(format!("https://{}:{}", host, port)).await?;
 
         for pin in vec![22, 23, 24, 25] {
-            let request = tonic::Request::new(LedRequest {
+            let request = tonic::Request::new(UpdateLedStatusRequest {
                 pin: pin,
                 command_type: CommandType::Blink.into(),
                 duration: 500,
             });
 
-            let response = client.toggle_led(request).await?;
+            let response = client.update_led_status(request).await?;
             println!("RESPONSE={:?}", response);
         }
 

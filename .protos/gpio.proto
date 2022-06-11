@@ -4,7 +4,7 @@ package gpio;
 import "google/protobuf/empty.proto";
 
 service Gpio {
-    rpc ToggleLed (LedRequest) returns (LedResponse);
+    rpc UpdateLedStatus (UpdateLedStatusRequest) returns (UpdateLedStatusResponse);
     rpc GetDeviceInfo (google.protobuf.Empty) returns (DeviceInfoResponse);
     rpc GetDeviceModel (google.protobuf.Empty) returns (DeviceModelResponse);
 }
@@ -14,13 +14,13 @@ enum CommandType {
     BLINK = 1;
 }
 
-message LedRequest {
+message UpdateLedStatusRequest {
     uint32 pin = 1;
     uint64 duration   = 2;
     CommandType command_type   = 3;
 }
 
-message LedResponse {
+message UpdateLedStatusResponse {
     bool   successful = 1;
     string message    = 2;
 }

@@ -10,6 +10,6 @@
 **/*.rs.bk
 
 # Ignore specific files or directories
-**/.vscode
+/.vscode
 
-proto/*.rs
+/.protos/*.rs

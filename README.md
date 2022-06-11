@@ -1,18 +1,32 @@
-# RAPSBERRY PI GPIO PINS - REPOSITORY <h1> 
+# **RAPSBERRY PI GPIO PINS - GRPC SERVER** <h1> 
 
-[![build](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/lyscm.rpi.gpio-pins-CI.yml/badge.svg?branch=master)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/lyscm.rpi.gpio-pins-CI.yml)
+[![build](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/lyscm/lyscm.rpi.gpio-pins/actions/workflows/ci.yml)
 
-#### STILL IN WORKING PROCESS! <h2> 
-        
-## Initiate package(s) <h2> 
-    
-Set parameters:
+---
+
+## **Initiate package(s)** <h2> 
+
+---
+
+**Set parameters:**
+
+> Bash:
 
 ```bash
-CONTAINER_NAME=gpio-pins-api
+CONTAINER_NAME=gpio-server
 TAG=ghcr.io/lyscm/lyscm.rpi.gpio-pins
 ```
-Remove any existing container:
+
+> Powershell:
+
+```powershell
+$CONTAINER_NAME="gpio-server"
+$TAG="ghcr.io/lyscm/lyscm.rpi.gpio-pins"
+```
+
+**Remove any existing container:**
+
+> Bash | Powershell
 
 ```bash
 docker stop $CONTAINER_NAME
@@ -20,7 +34,9 @@ docker rm $CONTAINER_NAME
 docker pull $TAG
 ```
 
-Run container:
+**Run container:**
+
+> Bash
 
 ```bash
 docker run \
@@ -33,25 +49,14 @@ docker run \
     $TAG
 ```
 
-## Try out: <h2> 
-
-Powershell:
+> Powershell
 ```powershell
-Invoke-WebRequest -Method POST -Uri 'http://localhost:8080/v1.0/gpio/led/transit' `
--ContentType 'application/json' `
--Body '{ 
-    "pin": 23, 
-    "command_type": "blink", 
-    "duration": 500
-}'
-```
-Bash:
-```bash
-curl --location --request POST 'http://localhost:8080/v1.0/gpio/led/transit' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "pin": 23,
-    "command_type": "blink",
-    "duration": 500
-}'
+docker run `
+    -d `
+    -p 8080:8000 `
+    --device /dev/gpiomem `
+    --name $CONTAINER_NAME `
+    --restart unless-stopped `
+    --privileged `
+    $TAG
 ```

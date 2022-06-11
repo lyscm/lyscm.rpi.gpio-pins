@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y cmake gcc-arm-linux-gnueabihf
 COPY ./src/ ./src/
 COPY Cargo.toml build.rs ./
 COPY ./.cargo ./.cargo/
-COPY ./proto ./proto/
+COPY ./.protos ./.protos/
 
 RUN cargo build --release --target $(cat ${TARGETPLATFORM_PATH})
 

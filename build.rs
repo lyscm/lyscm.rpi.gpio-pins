@@ -1,8 +1,9 @@
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let proto = "proto/gpio.proto";
+    let dir_proto = "./.protos";
+    let proto = &format!("{}/gpio.proto", dir_proto);
     tonic_build::configure()
         .build_server(true)
-        .out_dir("./proto")
+        .out_dir(dir_proto)
         .compile(&[proto], &["."])?;
     println!("cargo:rerun-if-changed={}", proto);
     Ok(())
